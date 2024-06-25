@@ -40,7 +40,7 @@ function ObsPanel() {
             obs = getObsInstance();
             setConnected(true);
         } catch (error) {
-            //console.log( error);
+            console.log( error);
             setConnected(false);
         }
     };
