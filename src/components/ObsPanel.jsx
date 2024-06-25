@@ -39,7 +39,7 @@ function ObsPanel() {
             obs = getObsInstance();
             setConnected(true);
         } catch (error) {
-            console.error('Failed to connect to OBS', error);
+            console.log( error);
             setConnected(false);
         }
     };
