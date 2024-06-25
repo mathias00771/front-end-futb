@@ -15,6 +15,7 @@ body[data-routepath="/scoreboard"] .container-app{
     text-align: center;
     max-height: 100px;
     height: 100%;
+    margin-top: 20px;
 }
 
 .localtab , .awaytab{
