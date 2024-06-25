@@ -36,7 +36,7 @@ function ObsPanel() {
                 return;
             }
 
-            await connectToOBS(`${protocol}://${hostObs}:${portObs}/`, ''); // Conectamos a OBS con la nueva dirección y contraseña
+            await connectToOBS(`${protocol}://${hostObs}:${portObs}`, ''); // Conectamos a OBS con la nueva dirección y contraseña
             obs = getObsInstance();
             setConnected(true);
         } catch (error) {
