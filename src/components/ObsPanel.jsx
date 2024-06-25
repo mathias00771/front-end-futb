@@ -10,11 +10,10 @@ import CafeLaurenceImg from '../images/CafeLaurence.png'
 import MotoselJotaImg from '../images/MotoselJota.png'
 import VidaVetImg from '../images/VidaVet.png'
 
-
-
-
 import '../styles/components/obspanel.css'
 
+
+const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
 let obs = null;
 function ObsPanel() {
     const [connected, setConnected] = useState(false);
@@ -36,7 +35,7 @@ function ObsPanel() {
                 return;
             }
 
-            await connectToOBS(`wss://${hostObs}:${portObs}`, ''); // Conectamos a OBS con la nueva dirección y contraseña
+            await connectToOBS(`${protocol}://${hostObs}:${portObs}`, ''); // Conectamos a OBS con la nueva dirección y contraseña
             obs = getObsInstance();
             setConnected(true);
         } catch (error) {
