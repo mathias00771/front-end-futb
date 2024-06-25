@@ -20,7 +20,7 @@ function ObsPanel() {
     const [connected, setConnected] = useState(false);
 
 
-    const [hostObs, setHostObs] = useState('111')
+    const [hostObs, setHostObs] = useState('localhost')
     const [portObs, setPortObs] = useState('4455')
 
     const [scenes, setScenes] = useState([]);
@@ -36,11 +36,11 @@ function ObsPanel() {
                 return;
             }
 
-            await connectToOBS(`${protocol}://${hostObs}:${portObs}`, ''); // Conectamos a OBS con la nueva dirección y contraseña
+            await connectToOBS(`${protocol}://${hostObs}:${portObs}/`, ''); // Conectamos a OBS con la nueva dirección y contraseña
             obs = getObsInstance();
             setConnected(true);
         } catch (error) {
-            console.log( error);
+            //console.log( error);
             setConnected(false);
         }
     };
