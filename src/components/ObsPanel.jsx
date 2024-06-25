@@ -20,11 +20,14 @@ function ObsPanel() {
     const [connected, setConnected] = useState(false);
 
 
-    const [hostObs, setHostObs] = useState('localhost')
+    const [hostObs, setHostObs] = useState('111')
     const [portObs, setPortObs] = useState('4455')
 
     const [scenes, setScenes] = useState([]);
     const [activeSceneId, setActiveSceneId] = useState(null);
+    const [activeSceneName, setActiveSceneName] = useState(null);
+
+    const [isImgData, setImgData] = useState(null)
 
 
     const initializeOBSConnection = async () => {
@@ -40,7 +43,7 @@ function ObsPanel() {
             obs = getObsInstance();
             setConnected(true);
         } catch (error) {
-            console.log( error);
+            console.log(error);
             setConnected(false);
         }
     };
@@ -77,17 +80,32 @@ function ObsPanel() {
     const getScenes = async () => {
         const scenesGeted = await obs.call('GetSceneList');
         setActiveSceneId(scenesGeted.currentProgramSceneUuid)
+        setActiveSceneName(scenesGeted.currentProgramSceneName)
         setScenes(scenesGeted.scenes)
     }
 
     const handleSceneClick = async (data) => {
-        await obs.call('SetCurrentProgramScene',{sceneName: data.name})
+        await obs.call('SetCurrentProgramScene', { sceneName: data.name })
         setActiveSceneId(data.id);
     };
 
+    const getScreenShot = async () => {
+        try {
+            let screenshot = await obs.call('GetSourceScreenshot', {
+                sourceName: activeSceneName,
+                imageFormat: "png",
+                imageWidth: 960,
+                imageHeight: 540
+            });
 
-    
-    
+            const imageDataUrl = `data:image/${screenshot.imageData}`;
+            setImgData(imageDataUrl); // Actualizar el estado con la URL de datos de la imagen
+        } catch (error) {
+            console.error('Error al obtener la captura de pantalla:', error);
+        }
+    };
+
+
     useEffect(() => {
         if (connected) {
             getScenes()
@@ -104,7 +122,7 @@ function ObsPanel() {
         };
     }, [hostObs, portObs]);
 
-    
+
 
     return (
         <div>
@@ -117,92 +135,112 @@ function ObsPanel() {
             {connected ? (
                 <>
                     <small>Este panel se usara con el plugin de anuncios llamado <b>Animated-Lower-Thirds</b> se recomienda instalarlos en su OBS y agregar los <b>HOT_KEYS</b> adecuados para el funcionamiento de este apartado de control </small>
-                    
-                    <h5 className='my-2'>Anuncios</h5>
+
+
                     <div className='d-flex'>
 
-                        <div className="sponsorts-deck-client just-frame-tbts flex-fill">
-                            <button onMouseDown={() => {
-                                handleAd("LT1_SLT01")
-                            }} onMouseUp={() => {
-                                handleCloseAd()
-                            }}>
-                                <img src={JCrepuestosImg} />
-                            </button>
-
-                            <button onMouseDown={() => {
-                                handleAd("LT1_SLT02")
-                            }} onMouseUp={() => {
-                                handleCloseAd()
-                            }}>
-                                <img src={AceralImg} />
-                            </button>
-
-                            <button onMouseDown={() => {
-                                handleAd("LT1_SLT03")
-                            }} onMouseUp={() => {
-                                handleCloseAd()
-                            }}>
-                                <img src={CarbondePaloImg} />
-                            </button>
-
-                            <button onMouseDown={() => {
-                                handleAd("LT1_SLT04")
-                            }} onMouseUp={() => {
-                                handleCloseAd()
-                            }}>
-                                <img src={CalzadoElizabethImg} />
-                            </button>
-
-                            <button onMouseDown={() => {
-                                handleAd("LT1_SLT05")
-                            }} onMouseUp={() => {
-                                handleCloseAd()
-                            }}>
-                                <img src={CholaCuencanaImg} />
-                            </button>
-
-                            <button onMouseDown={() => {
-                                handleAd("LT1_SLT06")
-                            }} onMouseUp={() => {
-                                handleCloseAd()
-                            }}>
-                                <img src={CafeLaurenceImg} />
-                            </button>
-
-                            <button onMouseDown={() => {
-                                handleAd("LT1_SLT07")
-                            }} onMouseUp={() => {
-                                handleCloseAd()
-                            }}>
-                                <img src={MotoselJotaImg} />
-                            </button>
-
-                            <button onMouseDown={() => {
-                                handleAd("LT1_SLT08")
-                            }} onMouseUp={() => {
-                                handleCloseAd()
-                            }}>
-                                <img src={VidaVetImg} />
-                            </button>
-                        </div>
-
-                        <div className="scenes-deck-client just-frame-tbts flex-fill">
-                            {scenes.map(scene => (
-                                <button
-                                    key={scene.sceneUuid}
-                                    className={`scene ${scene.sceneUuid === activeSceneId ? 'red' : ''}`}
-                                    onClick={() => handleSceneClick({
-                                        id: scene.sceneUuid,
-                                        name: scene.sceneName
-                                    })}
-                                >
-                                    {scene.sceneName}
+                        <div className=" just-frame-tbts flex-fill">
+                            <h5 className='my-2'>Anuncios</h5>
+                            <div className="sponsorts-deck-client">
+                                <button onMouseDown={() => {
+                                    handleAd("LT1_SLT01")
+                                }} onMouseUp={() => {
+                                    handleCloseAd()
+                                }}>
+                                    <img src={JCrepuestosImg} />
                                 </button>
-                            ))}                            
+
+                                <button onMouseDown={() => {
+                                    handleAd("LT1_SLT02")
+                                }} onMouseUp={() => {
+                                    handleCloseAd()
+                                }}>
+                                    <img src={AceralImg} />
+                                </button>
+
+                                <button onMouseDown={() => {
+                                    handleAd("LT1_SLT03")
+                                }} onMouseUp={() => {
+                                    handleCloseAd()
+                                }}>
+                                    <img src={CarbondePaloImg} />
+                                </button>
+
+                                <button onMouseDown={() => {
+                                    handleAd("LT1_SLT04")
+                                }} onMouseUp={() => {
+                                    handleCloseAd()
+                                }}>
+                                    <img src={CalzadoElizabethImg} />
+                                </button>
+
+                                <button onMouseDown={() => {
+                                    handleAd("LT1_SLT05")
+                                }} onMouseUp={() => {
+                                    handleCloseAd()
+                                }}>
+                                    <img src={CholaCuencanaImg} />
+                                </button>
+
+                                <button onMouseDown={() => {
+                                    handleAd("LT1_SLT06")
+                                }} onMouseUp={() => {
+                                    handleCloseAd()
+                                }}>
+                                    <img src={CafeLaurenceImg} />
+                                </button>
+
+                                <button onMouseDown={() => {
+                                    handleAd("LT1_SLT07")
+                                }} onMouseUp={() => {
+                                    handleCloseAd()
+                                }}>
+                                    <img src={MotoselJotaImg} />
+                                </button>
+
+                                <button onMouseDown={() => {
+                                    handleAd("LT1_SLT08")
+                                }} onMouseUp={() => {
+                                    handleCloseAd()
+                                }}>
+                                    <img src={VidaVetImg} />
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className=" just-frame-tbts flex-fill">
+                            <h5 className='my-2'>Escenas</h5>
+                            <div className="scenes-deck-client">
+                                {scenes.map(scene => (
+                                    <button
+                                        key={scene.sceneUuid}
+                                        className={`scene ${scene.sceneUuid === activeSceneId ? 'red' : ''}`}
+                                        onClick={() => handleSceneClick({
+                                            id: scene.sceneUuid,
+                                            name: scene.sceneName
+                                        })}
+                                    >
+                                        {scene.sceneName}
+                                    </button>
+                                ))}
+                            </div>
 
                         </div>
 
+
+
+
+                    </div>
+
+                    <div className='d-flex'>
+                        
+                        <div className=" just-frame-tbts flex-fill">
+                            <h5 className='my-2'>Escena principal</h5>
+                            <div className="current-scene-screenshot d-flex flex-column ">
+                                <button onClick={getScreenShot}>pressme</button>
+                                {isImgData && <img src={isImgData} style={{width: "1000px"}} />}
+                            </div>
+                        </div>
                     </div>
 
 

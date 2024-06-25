@@ -5,6 +5,12 @@ import '../styles/components/scoreboard.css';
 
 
 const ScoreBoard = ({ isTime, isScorere, isNameAwayVar, isNameLocalVar, globalColors }) => {
+    useEffect(() => {
+        const routePath = "/scoreboard"; // Aquí simulas el valor de data-routepath
+        document.body.setAttribute('data-routepath', routePath);
+        
+        console.log('Valor de data-routepath:', document.body.dataset.routepath);
+    }, []);
 
     //Solo de scoreboard
     const [isScore, setScore] = useState('0-0');

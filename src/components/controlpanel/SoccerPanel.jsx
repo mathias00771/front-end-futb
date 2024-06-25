@@ -7,6 +7,7 @@ import ScoreBoard from '../ScoreBoard'
 import '../../styles/components/controlpanel/soccerpanel.css'
 
 const SoccerPanel = () => {
+  
 
   const [isMinutes, setMinutes] = useState(0);
   const [isSeconds, setSeconds] = useState(0);
@@ -76,8 +77,6 @@ const SoccerPanel = () => {
     setDisplayColorPicker(false);
   };
 
-
-
   const handleStart = () => {
     setIsRunning(true)
   };
@@ -132,7 +131,6 @@ const SoccerPanel = () => {
       // });
 
     }
-
   }, [])
 
   useEffect(() => {

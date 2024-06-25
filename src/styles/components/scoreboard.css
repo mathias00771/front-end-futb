@@ -1,5 +1,5 @@
 body[data-routepath="/scoreboard"] .container-app{
-    background-color: transparent; /* Aplicar transparencia */
+    background: transparent; /* Aplicar transparencia */
 }
 
 .sc1{background: transparent;}
