@@ -13,7 +13,8 @@ import VidaVetImg from '../images/VidaVet.png'
 import '../styles/components/obspanel.css'
 
 
-const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+//const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+const protocol = 'ws';
 let obs = null;
 function ObsPanel() {
     const [connected, setConnected] = useState(false);
