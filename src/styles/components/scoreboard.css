@@ -19,7 +19,7 @@ body[data-routepath="/scoreboard"] .container-app{
 
 .localtab , .awaytab{
     background-color: black;
-    width: 20%;
+    width: 15%;
     color: white;
     
 }
@@ -33,7 +33,7 @@ body[data-routepath="/scoreboard"] .container-app{
 .score , .playtime{
     color: black;
     background-color: white;
-    width: 20%;
+    width: 15%;
     
 }
 
