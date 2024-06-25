@@ -1,0 +1,52 @@
+.cp--containerfull{
+    padding: 15px;
+}
+
+.insade--boxes--cp{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.box--cp{
+    min-width: 300px;
+    background-color: #181818;
+    border-radius: 20px;
+    margin-top: 15px;
+    border-radius: 10px;
+    border: 1px solid #2b2b2b;
+    margin: 10px;
+}
+
+.is-chat-cp{
+    
+    border-radius: 10px;
+    padding-left: 3px;
+    min-width: 300px;
+    max-width: 1290px;
+}
+
+.is-obs-cp{
+    
+    background-color: #181818;
+    border-radius: 10px;
+    padding-left: 3px;
+    padding: 20px;
+
+    
+}
+
+input{
+    outline: none;
+    border: 0;
+    background-color: black;
+    color: white;
+    padding: 10px;
+}
+
+ button{
+    padding: 10px;
+    background-color: black;
+    border-radius: 10px;
+    margin: 5px;
+}
+

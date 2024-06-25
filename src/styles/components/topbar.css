@@ -1,0 +1,36 @@
+.menu--topbar {
+    min-height: 10px;
+    width: 100%;
+    background: #131313;
+    border-radius: 10px 10px 0px 0px;
+    padding: 10px 10px 10px 0px;
+}
+.menu--content{
+    
+    padding: 10px 10px 10px 0px;;    
+    align-items: center;
+    display: flex;    
+    justify-content: space-between;
+    gap: 1.5rem; 
+    
+}
+
+.box--topbar{
+    display: flex;
+    gap: 0.5rem;
+    text-decoration: none;
+}
+
+.ancla--topbar{
+    padding-left: 8px;
+    padding-right: 8px;   
+    text-decoration: none;
+    border-bottom: 1px solid black;
+    color: #fff;
+}
+
+.tittle--website{
+    font-weight: 700;
+    border-bottom: 0;
+    font-size: 23px;
+}

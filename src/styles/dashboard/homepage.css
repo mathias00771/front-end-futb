@@ -1,0 +1,47 @@
+@import '../globalvars.css';
+
+.hp--labels{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.label-info{
+    background-color: #131313;
+    padding: 10px;
+    min-width: 300px;
+    min-height: 200px;
+    max-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3rem;
+    border-radius: 20px;
+    transition: 0.5s all ease; /* Mover la transición aquí */
+    margin: 4px;
+}
+
+.label-info:hover {
+    transform: scale(1.03);
+}
+
+.label-info .up-lbf{
+    text-align: center;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.label-info .desc-lbf{
+    text-align: center;
+    
+}
+
+.desc-lbf{
+    border-radius: 10px;
+}
+
+.label-info .desc-lbf h4{
+    font-weight: 700;
+    font-size: 45px;
+}

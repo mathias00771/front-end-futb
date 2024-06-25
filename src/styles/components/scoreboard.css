@@ -1,0 +1,51 @@
+body[data-routepath="/scoreboard"] .container-app{
+    background-color: transparent; /* Aplicar transparencia */
+}
+
+.sc1{background: transparent;}
+
+.scoreboard{
+    display: flex;
+    max-width: 1080px;
+    width: 100%;
+    padding: 20px;
+    overflow: hidden;
+    font-family: monospace;
+    font-size: 30px;
+    text-align: center;
+    max-height: 100px;
+    height: 100%;
+}
+
+.localtab , .awaytab{
+    background-color: black;
+    width: 20%;
+    color: white;
+    
+}
+
+
+
+.localtab{
+    border-radius: 0px 0px 0px 100px;
+}
+
+.score , .playtime{
+    color: black;
+    background-color: white;
+    width: 20%;
+    
+}
+
+.playtime{
+    border-left: 1px solid black;
+}
+
+.score{
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.playtime{
+    border-radius: 0px 100px 0px 0px;
+}

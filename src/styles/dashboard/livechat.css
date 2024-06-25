@@ -1,0 +1,66 @@
+@import '../globalvars.css';
+
+.main-chat{
+    background-color: #181818;
+    border-radius: 10px;
+    
+}
+
+.topbat-chat{
+    background-color: black;
+    color: white;
+    border-radius: 10px 10px 0px 0px;
+    padding: 15px;
+}
+
+.body-chat{
+    height: 100%;
+}
+
+.send-messages{
+    padding: 10px;
+}
+
+.send-messages form{
+    display: flex;
+    justify-content: space-between;
+}
+
+.send-messages input , button{
+    border: 0;
+}
+
+.send-messages input{
+    margin-right: 20px;
+    border-radius: 20px;
+    padding: 6px;
+    padding-left: 10px;
+    outline: none;
+    color: white;
+}
+
+.send-messages button{
+    width: 100px;
+    border-radius: 10px;
+    background-color: black;
+    color: white;
+}
+
+.container-messages{
+    padding: 20px;    
+    min-height: 60vh;
+    max-height: 60vh;
+    overflow-x: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+}
+
+.bubble-chat{
+    padding: 7px;
+    
+    margin: 2px;
+    color: white;
+    
+    
+}

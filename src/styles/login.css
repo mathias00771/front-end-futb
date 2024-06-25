@@ -1,0 +1,44 @@
+.login--form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.card--form{
+    background-color: var(--background-color);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.8rem;
+    padding: 20px;
+    min-width: 10rem;
+    width: 30rem;
+    max-width: 30rem;
+    min-height: 20rem;
+}
+
+.card--form input{
+    background-color: transparent;
+    border: 0;
+    border-bottom: 1px solid black;
+    outline: none;
+    
+}
+
+.card--form button{
+    padding: 10px;
+    background-color: var(--buttons-color);
+    color: var(--background-color);
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.logend--form{
+    margin-top: 20px;
+    display: flex;
+    justify-content: end;
+}

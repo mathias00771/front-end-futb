@@ -1,0 +1,13 @@
+.dashboard--content{
+    width: 100%;
+    transition: all 1s ease-in-out;
+  }
+  .dashboard{
+    border-radius: 0px 0px 10px 10px;
+    background: #fff;
+    height: 100%;
+    padding: 15px;
+    padding-left: 20px;
+    padding-right: 20px;  
+  }
+
