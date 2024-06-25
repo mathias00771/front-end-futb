@@ -21,7 +21,7 @@ export const connectToOBS = async (serverAddress, password) => {
       }
 
       obs = new OBSWebSocket();
-      await obs.connect(serverAddress, password);
+      await obs.connect(serverAddress, password, {rejectUnauthorized: false});
       console.log(`Connected to server at ${serverAddress}`);
       isConnected = true; // Marcamos que la conexión está activa
       return obs;
