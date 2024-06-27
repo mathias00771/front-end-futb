@@ -22,10 +22,10 @@ body[data-routepath="/scoreboard"] .container-app{
     background-color: black;
     width: 15%;
     color: white;
-    
+    display: flex;
+    justify-content: center;
+    text-align: center;
 }
-
-
 
 .localtab{
     border-radius: 0px 0px 0px 100px;
@@ -35,11 +35,13 @@ body[data-routepath="/scoreboard"] .container-app{
     color: black;
     background-color: white;
     width: 15%;
-    
+    justify-content: center;
+    text-align: center;
 }
 
 .playtime{
     border-left: 1px solid black;
+    min-width: 18%;
 }
 
 .score{
