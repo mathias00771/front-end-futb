@@ -6,7 +6,9 @@ export const PORT = 4000;
 let obs = null; // Variable para almacenar la instancia de OBSWebSocket
 let isConnected = false; // Estado para indicar si la conexión está activa
 
-//http://localhost:4000
+export const URLSCOREBOARD = "https://pentagonfutbol.netlify.app/dashboard/scoreboard" //http://localhost:5173/dashboard/scoreboard https://pentagonfutbol.netlify.app/dashboard/scoreboard
+
+//https://backendfut.onrender.com http://localhost:4000
 
 export const socket = io('https://backendfut.onrender.com', {
     path: '/socket.io',
@@ -51,3 +53,4 @@ export const disconnectFromOBS = () => {
 export const isOBSConnected = () => {
   return isConnected;
 };
+

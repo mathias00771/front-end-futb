@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { ChromePicker } from 'react-color'
 import { socket } from '../../configs/config'
-
-import ScoreBoard from '../ScoreBoard'
+import { URLSCOREBOARD } from '../../configs/config'
 
 import '../../styles/components/controlpanel/soccerpanel.css'
 import { useSB } from '../../context/ScoreboardContext'
@@ -145,6 +144,14 @@ const SoccerPanel = () => {
 
     setNameLocal(res.data.localName)
     setNameAway(res.data.awayName)
+
+    setColors(prevColors => ({
+      ...prevColors,
+      localTabBgc: res.data.localBackgroundColor,
+      awayTabBgc: res.data.awayBackgroundColor,
+      localTabTc: res.data.localTextColor,
+      awayTabTc: res.data.awayTextColor
+    }));
   }
 
   useEffect(() => {
@@ -239,7 +246,7 @@ const SoccerPanel = () => {
         <div className="to-soccerboard flex-fill d-flex flex-column">
           <h4 className='text-center'>Vista previa</h4>
           <iframe
-          src={'https://pentagonfutbol.netlify.app/dashboard/scoreboard'}
+          src={`${URLSCOREBOARD}`}
           style={{ width: '100%', height: '17vh', border: 'none' }}
           title="WebView"
         />

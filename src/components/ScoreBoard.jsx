@@ -34,6 +34,10 @@ const ScoreBoard = ({ globalColors }) => {
         setScore(res.data.score)
         setNameLocal(res.data.localName)
         setNameAway(res.data.awayName)
+        setBgcLocalTab(res.data.localBackgroundColor)
+        setBgcAwayTab(res.data.awayBackgroundColor)
+        setTcLocalTab(res.data.localTextColor)
+        setTcAwayTab(res.data.awayTextColor)
         return res.data
     }
 
