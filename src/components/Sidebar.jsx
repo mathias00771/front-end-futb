@@ -17,12 +17,12 @@ const suma = true
 const Sidebar = () => {  
   
   const {isAuthenticated} = useAuth();
-  const {isPageDashboard, isPageName, isJustChat} = usePage();
+  const {isPageDashboard, isPageName, isJustChat,isScoreBoard} = usePage();
 
   
   
 
-  if (isJustChat) return (<></>)
+  if (isJustChat || isScoreBoard) return (<></>)
   if (isAuthenticated && isPageDashboard) return (
     
     <div className='menu'>
