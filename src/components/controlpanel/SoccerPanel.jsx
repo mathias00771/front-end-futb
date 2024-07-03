@@ -119,17 +119,19 @@ const SoccerPanel = () => {
       //Local      
       if (typ == "+") {
         setScoreLocal(String(Number(isScoreLocal) + 1))
+        handleScore(String(Number(isScoreLocal) + 1), isScoreAway)
       } else if (typ == "-") {
         setScoreLocal(String(Number(isScoreLocal) - 1))
+        handleScore(String(Number(isScoreLocal) - 1), isScoreAway)
       }
-      handleScore(String(Number(isScoreLocal) + 1), isScoreAway)
     } else if (grp == 2) {
       if (typ == "+") {
         setScoreAway(String(Number(isScoreAway) + 1))
+        handleScore(isScoreLocal, String(Number(isScoreAway) + 1))
       } else if (typ == "-") {
         setScoreAway(String(Number(isScoreAway) - 1))
+        handleScore(isScoreLocal, String(Number(isScoreAway) - 1))
       }
-      handleScore(isScoreLocal, String(Number(isScoreAway) + 1))
     }
   }
 
