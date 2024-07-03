@@ -5,9 +5,10 @@ import { socket } from '../../configs/config'
 import ScoreBoard from '../ScoreBoard'
 
 import '../../styles/components/controlpanel/soccerpanel.css'
+import { useSB } from '../../context/ScoreboardContext'
 
 const SoccerPanel = () => {
-  
+  const {getInfoSB} = useSB()  
 
   const [isMinutes, setMinutes] = useState(0);
   const [isSeconds, setSeconds] = useState(0);
@@ -16,12 +17,12 @@ const SoccerPanel = () => {
   const intervalRef = useRef(null);
 
   //Solo de scoreboard
+  const [isScore, setScore] = useState('0-0')
+  const [isPlayTime, setPlayTime] = useState('00:00')
   const [isScoreLocal, setScoreLocal] = useState('0');
   const [isScoreAway, setScoreAway] = useState('0');
-  const [isScore, setScore] = useState('0-0');
-  const [isPlayTime, setPlayTime] = useState('00:00');
-  const [isNameLocal, setNameLocal] = useState('');
-  const [isNameAway, setNameAway] = useState('');
+  const [isNameLocal, setNameLocal] = useState('LOC');
+  const [isNameAway, setNameAway] = useState('VIS');
 
   const [isWhoColorP, setWhoColorP] = useState(null)
   const [isHexColor, setHexColor] = useState('#000')
@@ -78,20 +79,18 @@ const SoccerPanel = () => {
   };
 
   const handleStart = () => {
-    setIsRunning(true)
+    socket.emit('starttime', {minutes: isMinutes, seconds: isSeconds});
   };
 
   const handleStop = () => {
-    setIsRunning(false)
+    socket.emit('stoptime');
   };
 
   const handleReset = () => {
+    socket.emit('resettime')
     setSeconds(0)
     setMinutes(0)
-    socket.emit('gotime', '00:00');
-    setPlayTime('00:00')
-    setIsRunning(false)
-  };
+  }
 
   const handleSecondTime = () => {
     setSeconds(0)
@@ -99,6 +98,20 @@ const SoccerPanel = () => {
     setPlayTime(formatTime(isMinutes, isSeconds))
     socket.emit('gotime', formatTime(isMinutes, isSeconds));
     setIsRunning(true)
+  }
+
+  const handleScore = (scorelocal, scoreaway) => {
+    const totalScore = `${scorelocal}-${scoreaway}`
+    console.log(totalScore)
+    setScore(totalScore)
+    socket.emit('goscore', totalScore)
+  }
+
+  const handleNames = (namelocal, nameaway) => {
+    socket.emit('gonames', {
+      local: namelocal,
+      away: nameaway
+    })
   }
 
   const handleButtonID = (grp, typ) => {
@@ -109,79 +122,32 @@ const SoccerPanel = () => {
       } else if (typ == "-") {
         setScoreLocal(String(Number(isScoreLocal) - 1))
       }
+      handleScore(String(Number(isScoreLocal) + 1), isScoreAway)
     } else if (grp == 2) {
       if (typ == "+") {
         setScoreAway(String(Number(isScoreAway) + 1))
       } else if (typ == "-") {
         setScoreAway(String(Number(isScoreAway) - 1))
       }
+      handleScore(isScoreLocal, String(Number(isScoreAway) + 1))
     }
   }
 
-  useEffect(() => {
-    if (isRunning) {
-      //setPlayTime(formatTime(time))
-      // socket.emit('gotime', {
-      //   timeformat: isPlayTime,
-      //   timeseconds: time
-      // })
+  const updateInfoInputs = async () => {
+    const res = await getInfoSB()
 
-      // socket.on('updateTime', (data) => {
-      //     setPlayTime(data);
-      // });
+    const partsFromScore = res.data.score.split('-')
 
-    }
-  }, [])
+    setScoreLocal(partsFromScore[0])
+    setScoreAway(partsFromScore[1])
+
+    setNameLocal(res.data.localName)
+    setNameAway(res.data.awayName)
+  }
 
   useEffect(() => {
-    if (isRunning) {
-      intervalRef.current = setInterval(() => {
-        setSeconds(prevSeconds => {
-          if (prevSeconds === 60) {
-            setMinutes(prevMinutes => prevMinutes + 1)
-            return 0; // Resetea el tiempo a 0
-          }
-          return prevSeconds + 1;
-        });
-      }, 1000);
-    } else if (!isRunning && intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
-
-    return () => clearInterval(intervalRef.current);
-  }, [isRunning]);
-
-
-  useEffect(() => {
-    if (isRunning) {
-      setPlayTime(formatTime(isMinutes, isSeconds))
-
-      socket.emit('gotime', {
-        timeformat: isPlayTime,
-        timeseconds: isSeconds,
-        timeminutes: isMinutes
-      })
-
-      // socket.on('updateTime', (data) => {
-      //     setPlayTime(data);
-      // });
-
-    }
-  }, [isSeconds])
-
-  useEffect(() => {
-    const totalScore = `${isScoreLocal}-${isScoreAway}`
-    setScore(totalScore)
-    socket.emit('goscore', totalScore)
-  }, [isScoreAway, isScoreLocal])
-
-  useEffect(() => {
-    socket.emit('gonames', {
-      local: isNameLocal,
-      away: isNameAway
-    })
-  }, [isNameAway, isNameLocal])
-
+    updateInfoInputs()
+  },[])
 
 
   return (
@@ -211,10 +177,12 @@ const SoccerPanel = () => {
                 }
               }} />
             </div>
+
+
             <div className="in-btns-controls-t">
-              <button className='it' onClick={handleStart}>Iniciar tiempo</button>
-              <button className='pt' onClick={handleStop}>Parar tiempo</button>
-              <button className='rt' onClick={handleReset}>Resetear tiempo</button>
+              <button className='it' onClick={handleStart}>Iniciar tiempo2</button>
+              <button className='pt' onClick={handleStop}>Parar tiempo2</button>
+              <button className='rt' onClick={handleReset}>Resetear tiempo2</button>
             </div>
             <div className="in-btns-controls-t">
               <button onClick={handleSecondTime}>Segundo tiempo</button>
@@ -224,14 +192,14 @@ const SoccerPanel = () => {
           <div className="to-names-control is-box-control flex-fill d-flex flex-column text-center">
             <h4 className='text-center'>NOMBRES</h4>
             <p>LOCAL</p>
-            <input type="text" placeholder="LOCAL" className='input-to-names' maxLength={3} onChange={(e) => {
+            <input type="text" value={isNameLocal} className='input-to-names' maxLength={3} onChange={(e) => {
               const inputText = e.target.value.toUpperCase();
-              if (inputText !== "") { setNameLocal(inputText) } else { setNameLocal("LOC") }
+              if (inputText !== "") { handleNames(inputText,isNameAway); setNameLocal(inputText) } else { setNameLocal("LOC") }
             }} />
             <p>VISITANTE</p>
-            <input type="text" placeholder="AWAY" className='input-to-names' maxLength={3} onChange={(e) => {
+            <input type="text" value={isNameAway} className='input-to-names' maxLength={3} onChange={(e) => {
               const inputText = e.target.value.toUpperCase();
-              if (inputText !== "") { setNameAway(inputText) } else { setNameAway("VIS") }
+              if (inputText !== "") { handleNames(isNameLocal, inputText); setNameAway(inputText) } else { setNameAway("VIS") }
             }} />
           </div>
           <div className="to-goals-cotrol is-box-control flex-fill d-flex flex-column text-center">
@@ -240,6 +208,7 @@ const SoccerPanel = () => {
             <div className="inp-local-goals">
               <input type="text" onChange={(e) => {
                 setScoreLocal(e.target.value)
+                handleScore(e.target.value)
 
               }} value={isScoreLocal} />
               <button className='signos-buttons' onClick={() => {
@@ -253,6 +222,7 @@ const SoccerPanel = () => {
             <div className="inp-local-goals">
               <input type="text" onChange={(e) => {
                 setScoreAway(e.target.value)
+                handleScore(isScoreLocal, e.target.value)
 
               }} value={isScoreAway} />
               <button className='signos-buttons' onClick={() => {
@@ -266,12 +236,11 @@ const SoccerPanel = () => {
         </div>
         <div className="to-soccerboard flex-fill d-flex flex-column">
           <h4 className='text-center'>Vista previa</h4>
-          <ScoreBoard isTime={isPlayTime} isScorere={isScore} isNameLocalVar={isNameLocal} isNameAwayVar={isNameAway} globalColors={{
-            localTabBgc: scolor.localTabBgc,
-            awayTabBgc: scolor.awayTabBgc,
-            localTabTc: scolor.localTabTc,
-            awayTabTc: scolor.awayTabTc
-          }} />
+          <iframe
+          src={'http://localhost:5173/scoreboard'}
+          style={{ width: '100%', height: '17vh', border: 'none' }}
+          title="WebView"
+        />
           <div className="settings-scoreboard contatiner-fluid d-flex wrap">
 
             <div className="tabs-names-scolors flex-fill">

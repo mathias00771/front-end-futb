@@ -6,6 +6,7 @@ export const PORT = 4000;
 let obs = null; // Variable para almacenar la instancia de OBSWebSocket
 let isConnected = false; // Estado para indicar si la conexión está activa
 
+//http://localhost:4000
 
 export const socket = io('https://backendfut.onrender.com', {
     path: '/socket.io',

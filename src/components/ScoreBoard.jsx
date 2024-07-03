@@ -1,15 +1,16 @@
 import { useEffect, useState, useRef, startTransition } from 'react';
 import { useLocation } from 'react-router-dom'
 import { socket } from '../configs/config';
+import { useSB } from '../context/ScoreboardContext'
 import '../styles/components/scoreboard.css';
 
 
-const ScoreBoard = ({ isTime, isScorere, isNameAwayVar, isNameLocalVar, globalColors }) => {
+const ScoreBoard = ({ globalColors }) => {
+    const { getInfoSB, updateInfoSB } = useSB();
+
     useEffect(() => {
         const routePath = "/scoreboard"; // Aquí simulas el valor de data-routepath
         document.body.setAttribute('data-routepath', routePath);
-        
-        console.log('Valor de data-routepath:', document.body.dataset.routepath);
     }, []);
 
     //Solo de scoreboard
@@ -28,7 +29,16 @@ const ScoreBoard = ({ isTime, isScorere, isNameAwayVar, isNameLocalVar, globalCo
     const [isTcLocalTab , setTcLocalTab] = useState('#fff');
     const [isTcAwayTab , setTcAwayTab] = useState('#fff');
 
+    const handleGetInfo = async () => {
+        const res = await getInfoSB()
+        setScore(res.data.score)
+        setNameLocal(res.data.localName)
+        setNameAway(res.data.awayName)
+        return res.data
+    }
+
     useEffect(() => {
+        handleGetInfo()
         
         socket.on('getscore', (e) => {
             setScore(e);
@@ -39,8 +49,8 @@ const ScoreBoard = ({ isTime, isScorere, isNameAwayVar, isNameLocalVar, globalCo
         })
 
         socket.on('getnames', (n) => {
-                setNameLocal(n.local);
-                setNameAway(n.away)
+            setNameLocal(n.local);
+            setNameAway(n.away)            
         })
 
         socket.on('getcolors', (c) => {
@@ -49,7 +59,7 @@ const ScoreBoard = ({ isTime, isScorere, isNameAwayVar, isNameLocalVar, globalCo
             setTcLocalTab(c.localTabTc) 
             setTcAwayTab(c.awayTabTc)
         })
-
+    
 
         // Cleanup listener on unmount
         return () => {
@@ -59,13 +69,6 @@ const ScoreBoard = ({ isTime, isScorere, isNameAwayVar, isNameLocalVar, globalCo
             socket.off('getcolors');
         };
     }, []);
-
-    useEffect(() => {
-        if (isTime === undefined) { setPlayTime('00:00') } else { setPlayTime(String(isTime)) }
-        if (isScorere === undefined) { setScore('0-0'); } else { setScore(isScorere) }
-        if (isNameLocalVar === undefined || isNameLocalVar === "") { setNameLocal('LOC') } else { setNameLocal(isNameLocalVar) }
-        if (isNameAwayVar === undefined || isNameAwayVar === "") { setNameAway('VIS') } else { setNameAway(isNameAwayVar) }       
-    }, [isTime, isScorere, isNameLocalVar, isNameAwayVar])
     
     useEffect(() => {   
         if (!globalColors) return
@@ -74,6 +77,10 @@ const ScoreBoard = ({ isTime, isScorere, isNameAwayVar, isNameLocalVar, globalCo
         setTcLocalTab(globalColors.localTabTc) 
         setTcAwayTab(globalColors.awayTabTc) 
     }, [globalColors])
+
+
+
+    
 
 
     return (

@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext.jsx';
 import { PageProvider } from './context/PageContext.jsx';
+import { ScoreBoardProvider } from './context/ScoreboardContext.jsx'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/globalvars.css';
@@ -35,44 +36,46 @@ function App() {
       <BrowserRouter>
         <div className="App">
           <PageProvider>
-            <div className="container-app container-fluid flex-fill">
-              <TopbarP />
-              <div>
-                <Routes>
-                  <Route path="*" element={<h1>Pagina no encontrada</h1>} />
-                  <Route path="/" element={<Home />} />
-                  <Route path="" element={<HomePageD />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/soccerpanel" element={<SoccerPanel />} />
+            <ScoreBoardProvider>
+              <div className="container-app container-fluid flex-fill">
+                <TopbarP />
+                <div>
+                  <Routes>
+                    <Route path="*" element={<h1>Pagina no encontrada</h1>} />
+                    <Route path="/" element={<Home />} />
+                    <Route path="" element={<HomePageD />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/soccerpanel" element={<SoccerPanel />} />
 
-                  <Route path="/form" element={<Form />} />
-                  {/* {
+                    <Route path="/form" element={<Form />} />
+                    {/* {
               <Route path="/justchat" element={<Chat />} />} */}
 
-                  {/* Rutas del dashboard */}
+                    {/* Rutas del dashboard */}
 
-                  
-              <Route path="/scoreboard" element={<ScoreBoard />} />
-                  <Route element={<ProtectedRoute />}>
-                    <Route
-                      path="/dashboard/*"
-                      element={
-                        <DashboardLayout>
-                          <Routes>
-                            <Route path="*" element={<h1 className='text-center'>Pagina no encontrada </h1>} />
-                            <Route exact path='home' element={<HomePageD />} />
-                            <Route path="/obs" element={<ObsPanel />} />
-                            <Route path="control-panel" element={<ControlP />} />
-                            <Route path="chat" element={<LiveChat />} />
-                            <Route path="scoreboard" element={<ScoreBoard />} />
-                          </Routes>
-                        </DashboardLayout>
-                      }
-                    />
-                  </Route>
-                </Routes>
+
+                    <Route path="/scoreboard" element={<ScoreBoard />} />
+                    <Route element={<ProtectedRoute />}>
+                      <Route
+                        path="/dashboard/*"
+                        element={
+                          <DashboardLayout>
+                            <Routes>
+                              <Route path="*" element={<h1 className='text-center'>Pagina no encontrada </h1>} />
+                              <Route exact path='home' element={<HomePageD />} />
+                              <Route path="/obs" element={<ObsPanel />} />
+                              <Route path="control-panel" element={<ControlP />} />
+                              <Route path="chat" element={<LiveChat />} />
+                              <Route path="scoreboard" element={<ScoreBoard />} />
+                            </Routes>
+                          </DashboardLayout>
+                        }
+                      />
+                    </Route>
+                  </Routes>
+                </div>
               </div>
-            </div>
+            </ScoreBoardProvider>
           </PageProvider>
         </div>
       </BrowserRouter>
