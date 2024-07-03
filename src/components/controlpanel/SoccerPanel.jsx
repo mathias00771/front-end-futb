@@ -237,7 +237,7 @@ const SoccerPanel = () => {
         <div className="to-soccerboard flex-fill d-flex flex-column">
           <h4 className='text-center'>Vista previa</h4>
           <iframe
-          src={'http://localhost:5173/scoreboard'}
+          src={'https://pentagonfutbol.netlify.app/dashboard/scoreboard'}
           style={{ width: '100%', height: '17vh', border: 'none' }}
           title="WebView"
         />
